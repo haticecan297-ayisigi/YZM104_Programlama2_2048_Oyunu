@@ -1,0 +1,22 @@
+# Derleme çıktıları (Build artifacts)
+build/
+bin/
+obj/
+
+# Çalıştırılabilir dosyalar
+*.exe
+*.out
+*.app
+
+# IDE ve Editör ayarları
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Kütüphaneler
+SFML2/
+
+# İşletim sistemi kalıntıları
+Thumbs.db
+.DS_Store
