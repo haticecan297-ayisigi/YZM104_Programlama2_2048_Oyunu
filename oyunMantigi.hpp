@@ -26,6 +26,6 @@ class OyunMantigi{
 
     //Test ve görselleştirme için getter
     int degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
-    
+    sf::Color renkAl(int deger);
 };
 #endif 

@@ -166,5 +166,23 @@ void OyunMantigi::solaKaydir() {
         }
         if (hareketEttiMi) {
           rastgeleKutuEkle(); //
+        }
     }
+
+    //Sayı kutularının renkleri
+    sf::Color renkAl(int deger){
+        switch(deger){
+            case 2:    return sf::Color(238,228,218);      //Kirli Beyaz
+            case 4:    return sf::Color(237, 224, 200);    //Krem
+            case 8:    return sf::Color(242, 177, 121);    //Acik Turuncu
+            case 16:   return sf::Color(245, 149, 99);     //Koyu Turuncu
+            case 32:   return sf::Color(246, 124, 95);     //Mercan
+            case 64:   return sf::Color(246, 94, 59);      //Parlak Kirmizi
+            case 128:  return sf::Color(237, 207, 114);    //Parlak Sari
+            case 256:  return sf::Color(237, 204, 97);     //Altın Sarisi
+            case 512:  return sf::Color(237, 200, 80);     //Gunes Sarisi
+            case 1024: return sf::Color(237, 197, 63);     //Limon Sarisi
+            case 2048: return sf::Color(237, 194, 46);     //Ozel Altin
+            default:   return sf::Color(205, 193, 180);    // Boş kutu rengi bej
+        }
     }
