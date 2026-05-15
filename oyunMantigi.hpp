@@ -20,6 +20,9 @@ class OyunMantigi{
 
     void tahtayiSifirla();   //Oyunu başlangıç haline getirmek için
     void solaKaydir(); // Sola kaydırma ana fonksiyonu
+    void sagaKaydir();
+    void yukariKaydir();
+    void asagiKaydir();
 
     //Test ve görselleştirme için getter
     int degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
