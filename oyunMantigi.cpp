@@ -170,7 +170,7 @@ void OyunMantigi::solaKaydir() {
     }
 
     //Sayı kutularının renkleri
-    sf::Color renkAl(int deger){
+    sf::Color OyunMantigi::renkAl(int deger){
         switch(deger){
             case 2:    return sf::Color(238,228,218);      //Kirli Beyaz
             case 4:    return sf::Color(237, 224, 200);    //Krem
