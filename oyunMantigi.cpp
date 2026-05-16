@@ -2,6 +2,7 @@
 
 OyunMantigi::OyunMantigi(){
     skor = 0;   //constructor içinde sıfırlıyoruz
+    enYuksekSkor = yuksekSkoruYukle();
     srand(static_cast<unsigned>(time(0)));  //Rastgelelik için zamanı başlat
     tahtayiSifirla();
 }
@@ -174,6 +175,8 @@ void OyunMantigi::solaKaydir() {
         }
     }
 
+    int OyunMantigi::degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
+
     //Sayı kutularının renkleri
     sf::Color OyunMantigi::renkAl(int deger){
         switch(deger){
@@ -195,4 +198,29 @@ void OyunMantigi::solaKaydir() {
     void OyunMantigi::yenidenBaslat(){
         skor = 0;   //Oyun her başladığında güncel skor sıfır olmalı
         tahtayiSifirla();
+    }
+
+   int OyunMantigi::yuksekSkoruYukle() {
+        int kayitliSkor = 0;
+        ifstream dosyaOku("en_yuksek.txt");
+        if (dosyaOku.is_open()) {
+            dosyaOku >> kayitliSkor;
+            dosyaOku.close();
+        }
+        return kayitliSkor;
+    }
+
+    void OyunMantigi::yuksekSkoruKaydet(){
+        if(skor > enYuksekSkor){
+            enYuksekSkor = skor;
+        }
+        ofstream dosyaYaz("en_yuksek.txt");
+        if(dosyaYaz.is_open()){
+            dosyaYaz <<enYuksekSkor;
+            dosyaYaz.close();
+        }
+    }
+
+    int OyunMantigi::enYuksekSkorAl() const {
+        return (skor > enYuksekSkor) ? skor : enYuksekSkor;
     }

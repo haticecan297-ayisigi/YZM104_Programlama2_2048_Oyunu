@@ -4,6 +4,7 @@
 #include "kutu.hpp"
 #include <ctime>
 #include <cstdlib>
+#include <fstream>   //Dosyalama için
 
 using namespace std;
 
@@ -14,6 +15,7 @@ class OyunMantigi{
     bool hareketEttiMi; // Hamle sonucunda bir değişiklik oldu mu kontrolü
     void birlestirmeIsaretleriniTemizle(); // Her hamle başında birleşme durumunu sıfırlar
     int skor; //Güncel skor değişkeni
+    int enYuksekSkor;
 
     public:
 
@@ -26,7 +28,7 @@ class OyunMantigi{
     void asagiKaydir();
 
     //Test ve görselleştirme için getter
-    int degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
+    int degerAl(int satir,int sutun) const;
 
     sf::Color renkAl(int deger);
 
@@ -34,5 +36,13 @@ class OyunMantigi{
 
     int skorAl() const {return skor;}  //Skor privite olduğu için okuması lazım
     
+    // Dosyadan okuma işlemi
+    int yuksekSkoruYukle();
+
+    // Dosyaya yazma işlemi
+    void yuksekSkoruKaydet();
+
+     // Oyun sırasında anlık güncelleme kontrolü ile rekoru döndür
+    int enYuksekSkorAl() const;
 };
 #endif 

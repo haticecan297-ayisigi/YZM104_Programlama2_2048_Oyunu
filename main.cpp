@@ -23,6 +23,7 @@ int main() {
     while(pencere.isOpen()){
         while(const optional olay = pencere.pollEvent()){
             if(olay->is<sf::Event::Closed>()){     //X basınca kapanması için
+                oyun.yuksekSkoruKaydet();   //Pencere kapanınca skoru kaydedecek
                 pencere.close();
             }
 
