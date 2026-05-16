@@ -34,7 +34,7 @@ class OyunMantigi{
 
     void yenidenBaslat();
 
-    int skorAl() const {return skor;}  //Skor privite olduğu için okuması lazım
+    int skorAl() const;  //Skor privite olduğu için okuması lazım
     
     // Dosyadan okuma işlemi
     int yuksekSkoruYukle();

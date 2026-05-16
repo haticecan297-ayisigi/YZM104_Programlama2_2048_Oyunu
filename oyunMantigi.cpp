@@ -102,7 +102,7 @@ void OyunMantigi::solaKaydir() {
                     }
                     if (hedefSutun < 3 && tahta[i][hedefSutun + 1].deger == tahta[i][hedefSutun].deger && !tahta[i][hedefSutun + 1].birlestiMi) {
                         tahta[i][hedefSutun + 1].deger *= 2;
-                        skor += tahta[i][hedefSutun - 1].deger;
+                        skor += tahta[i][hedefSutun + 1].deger;
                         tahta[i][hedefSutun + 1].birlestiMi = true;
                         tahta[i][hedefSutun].deger = 0;
                         hareketEttiMi = true;
@@ -131,7 +131,7 @@ void OyunMantigi::solaKaydir() {
                     }
                     if (hedefSatir > 0 && tahta[hedefSatir - 1][j].deger == tahta[hedefSatir][j].deger && !tahta[hedefSatir - 1][j].birlestiMi) {
                         tahta[hedefSatir - 1][j].deger *= 2;
-                        skor += tahta[i][hedefSatir - 1].deger;
+                        skor += tahta[hedefSatir - 1][j].deger;
                         tahta[hedefSatir - 1][j].birlestiMi = true;
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
@@ -162,7 +162,7 @@ void OyunMantigi::solaKaydir() {
                     }
                     if (hedefSatir < 3 && tahta[hedefSatir + 1][j].deger == tahta[hedefSatir][j].deger && !tahta[hedefSatir + 1][j].birlestiMi) {
                         tahta[hedefSatir + 1][j].deger *= 2;
-                        skor += tahta[i][hedefSatir - 1].deger;
+                        skor += tahta[hedefSatir + 1][j].deger;
                         tahta[hedefSatir + 1][j].birlestiMi = true;
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
@@ -176,6 +176,8 @@ void OyunMantigi::solaKaydir() {
     }
 
     int OyunMantigi::degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
+
+    int OyunMantigi::skorAl() const {return skor;}
 
     //Sayı kutularının renkleri
     sf::Color OyunMantigi::renkAl(int deger){
