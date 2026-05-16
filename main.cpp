@@ -8,7 +8,7 @@ using namespace std;
 
 int main() {
     //Kütüphane ile oyun penceresi açıyorum
-    sf::RenderWindow pencere(sf::VideoMode({450,450}),"2048");
+    sf::RenderWindow pencere(sf::VideoMode({450,560}),"2048");   // Üst kısmına logo ve skor eklemek için değiştirildi
     pencere.setFramerateLimit(60);   //Zaman yönetimi için
 
     OyunMantigi oyun;   // OyunMAntigi türünde bir değişken atıyorum
@@ -47,7 +47,7 @@ int main() {
 
                 //Kareyi (Kutuyu) çizmek için
                 sf::RectangleShape kare(sf::Vector2f({100.f, 100.f}));
-                kare.setPosition({j * 110.f + 10.f, i * 110.f + 10.f});
+                kare.setPosition({j * 110.f + 10.f, i * 110.f + 110.f});
                 
                 // Sayı değerine göre rengi sınıftaki fonksiyonu slmsk için
                 kare.setFillColor(oyun.renkAl(deger)); 
@@ -67,10 +67,62 @@ int main() {
                     metin.setOrigin({metinBoyut.size.x / 2.0f, metinBoyut.size.y / 2.0f});
                     
                     // Merkeze yerleştirme(Ortalama): Kutunun başlangıcı + Kutunun yarısı (50.f)
-                    metin.setPosition({j * 110.f + 10.f + 50.f, i * 110.f + 10.f + 50.f});
+                    metin.setPosition({j * 110.f + 10.f + 50.f, i * 110.f + 110.f + 50.f});
 
                     pencere.draw(metin);
                 }
+
+                //Oyun Logosu
+                sf::Text logo(font);
+                logo.setString("2048");
+                logo.setCharacterSize(45);
+                logo.setFillColor(sf::Color(119, 110, 101));
+                logo.setStyle(sf::Text::Bold);
+                logo.setPosition({20.f, 20.f});
+                pencere.draw(logo);
+
+                // 2. Anlık Skor Kutusu ve Yazısı
+                sf::RectangleShape skorKutusu(sf::Vector2f({100.f, 50.f}));
+                skorKutusu.setPosition({220.f, 25.f});
+                skorKutusu.setFillColor(sf::Color(187, 173, 160));
+                pencere.draw(skorKutusu);
+
+                sf::Text skorBaslik(font);
+                skorBaslik.setString("SCORE:");
+                skorBaslik.setCharacterSize(14);
+                skorBaslik.setFillColor(sf::Color(238, 228, 218));
+                skorBaslik.setPosition({248.f, 30.f});
+                pencere.draw(skorBaslik);
+
+                sf::Text skorDeger(font);
+                skorDeger.setString(to_string(oyun.skorAl()));
+                skorDeger.setCharacterSize(20);
+                skorDeger.setFillColor(sf::Color::White);
+                 // Ortalamak icin:
+                sf::FloatRect sdBounds = skorDeger.getLocalBounds();
+                skorDeger.setPosition({270.f - sdBounds.size.x / 2.f, 48.f});
+                pencere.draw(skorDeger);
+
+                // 3. En İyi Skor Kutusu ve Yazısı
+                sf::RectangleShape bestKutusu(sf::Vector2f({100.f, 50.f}));
+                bestKutusu.setPosition({330.f, 25.f});
+                bestKutusu.setFillColor(sf::Color(187, 173, 160));
+                pencere.draw(bestKutusu);
+
+                sf::Text bestBaslik(font);
+                bestBaslik.setString("BEST:");
+                bestBaslik.setCharacterSize(14);
+                bestBaslik.setFillColor(sf::Color(238, 228, 218));
+                bestBaslik.setPosition({365.f, 30.f});
+                pencere.draw(bestBaslik);
+
+                sf::Text bestDeger(font);
+                bestDeger.setString(to_string(oyun.enYuksekSkorAl()));
+                bestDeger.setCharacterSize(20);
+                bestDeger.setFillColor(sf::Color::White);
+                sf::FloatRect bdBounds = bestDeger.getLocalBounds();
+                bestDeger.setPosition({380.f - bdBounds.size.x / 2.f, 48.f});
+                pencere.draw(bestDeger);
             }
         }
 
