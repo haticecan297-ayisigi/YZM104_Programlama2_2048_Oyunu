@@ -1,6 +1,7 @@
 #include "oyunMantigi.hpp"
 
 OyunMantigi::OyunMantigi(){
+    skor = 0;   //constructor içinde sıfırlıyoruz
     srand(static_cast<unsigned>(time(0)));  //Rastgelelik için zamanı başlat
     tahtayiSifirla();
 }
@@ -69,6 +70,7 @@ void OyunMantigi::solaKaydir() {
                     !tahta[i][hedefSutun - 1].birlestiMi) {
                     
                     tahta[i][hedefSutun - 1].deger *= 2; // Değeri iki katına çıkar
+                    skor += tahta[i][hedefSutun - 1].deger; //Birleşen değeri skora ekle
                     tahta[i][hedefSutun - 1].birlestiMi = true; // Aynı hamlede tekrar birleşmesin
                     tahta[i][hedefSutun].deger = 0;
                     hareketEttiMi = true; //
@@ -99,6 +101,7 @@ void OyunMantigi::solaKaydir() {
                     }
                     if (hedefSutun < 3 && tahta[i][hedefSutun + 1].deger == tahta[i][hedefSutun].deger && !tahta[i][hedefSutun + 1].birlestiMi) {
                         tahta[i][hedefSutun + 1].deger *= 2;
+                        skor += tahta[i][hedefSutun - 1].deger;
                         tahta[i][hedefSutun + 1].birlestiMi = true;
                         tahta[i][hedefSutun].deger = 0;
                         hareketEttiMi = true;
@@ -127,6 +130,7 @@ void OyunMantigi::solaKaydir() {
                     }
                     if (hedefSatir > 0 && tahta[hedefSatir - 1][j].deger == tahta[hedefSatir][j].deger && !tahta[hedefSatir - 1][j].birlestiMi) {
                         tahta[hedefSatir - 1][j].deger *= 2;
+                        skor += tahta[i][hedefSatir - 1].deger;
                         tahta[hedefSatir - 1][j].birlestiMi = true;
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
@@ -157,6 +161,7 @@ void OyunMantigi::solaKaydir() {
                     }
                     if (hedefSatir < 3 && tahta[hedefSatir + 1][j].deger == tahta[hedefSatir][j].deger && !tahta[hedefSatir + 1][j].birlestiMi) {
                         tahta[hedefSatir + 1][j].deger *= 2;
+                        skor += tahta[i][hedefSatir - 1].deger;
                         tahta[hedefSatir + 1][j].birlestiMi = true;
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
@@ -188,5 +193,6 @@ void OyunMantigi::solaKaydir() {
     }
 
     void OyunMantigi::yenidenBaslat(){
+        skor = 0;   //Oyun her başladığında güncel skor sıfır olmalı
         tahtayiSifirla();
     }

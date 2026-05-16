@@ -13,6 +13,7 @@ class OyunMantigi{
     void rastgeleKutuEkle();   //Başlangıçta ve sonrasında rastgele sayı eklemek için
     bool hareketEttiMi; // Hamle sonucunda bir değişiklik oldu mu kontrolü
     void birlestirmeIsaretleriniTemizle(); // Her hamle başında birleşme durumunu sıfırlar
+    int skor; //Güncel skor değişkeni
 
     public:
 
@@ -30,6 +31,8 @@ class OyunMantigi{
     sf::Color renkAl(int deger);
 
     void yenidenBaslat();
+
+    int skorAl() const {return skor;}  //Skor privite olduğu için okuması lazım
     
 };
 #endif 
