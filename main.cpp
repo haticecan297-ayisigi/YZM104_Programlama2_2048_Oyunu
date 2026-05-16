@@ -25,6 +25,15 @@ int main() {
             if(olay->is<sf::Event::Closed>()){     //X basınca kapanması için
                 pencere.close();
             }
+
+            // Klavye girisi kontrolu
+            if (const auto* basilanTus = olay->getIf<sf::Event::KeyPressed>()) {
+                if (basilanTus->code == sf::Keyboard::Key::Left)       oyun.solaKaydir();
+                else if (basilanTus->code == sf::Keyboard::Key::Right) oyun.sagaKaydir();
+                else if (basilanTus->code == sf::Keyboard::Key::Up)    oyun.yukariKaydir();
+                else if (basilanTus->code == sf::Keyboard::Key::Down)  oyun.asagiKaydir();
+                else if (basilanTus->code == sf::Keyboard::Key::R) oyun.yenidenBaslat();
+            }
         }
 
          pencere.clear(sf::Color(187, 173, 160)); // Arka plan rengi

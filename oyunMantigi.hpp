@@ -28,5 +28,8 @@ class OyunMantigi{
     int degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
 
     sf::Color renkAl(int deger);
+
+    void yenidenBaslat();
+    
 };
 #endif 

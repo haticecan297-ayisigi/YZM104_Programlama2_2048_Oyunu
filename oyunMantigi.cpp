@@ -186,3 +186,7 @@ void OyunMantigi::solaKaydir() {
             default:   return sf::Color(205, 193, 180);    // Boş kutu rengi bej
         }
     }
+
+    void OyunMantigi::yenidenBaslat(){
+        tahtayiSifirla();
+    }
