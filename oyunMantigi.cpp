@@ -198,6 +198,7 @@ void OyunMantigi::solaKaydir() {
     }
 
     void OyunMantigi::yenidenBaslat(){
+        yuksekSkoruKaydet();   //Önce mevcut skoru kaydedecek
         skor = 0;   //Oyun her başladığında güncel skor sıfır olmalı
         tahtayiSifirla();
     }
@@ -225,4 +226,39 @@ void OyunMantigi::solaKaydir() {
 
     int OyunMantigi::enYuksekSkorAl() const {
         return (skor > enYuksekSkor) ? skor : enYuksekSkor;
+    }
+
+    // Herhangi bir kutu 2048 değerine ulaştı mı kontrolü
+    bool OyunMantigi::kazandiMi() const {
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (tahta[i][j].deger == 2048) {
+                    return true; // 2048 bulundu, oyuncu kazandı!
+                }
+            }
+        }
+        return false;
+    }
+
+    // Hamle imkanı kaldı mı kontrolü
+    bool OyunMantigi::bittiMi() const {
+        //Tahtada hiç boş hücre var mı?
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                if (tahta[i][j].deger == 0) {
+                    return false; // Boş yer varsa oyun bitmemiştir
+                }
+            }
+        }
+
+        //Boş yer yoksa, yan yana veya alt alta birleşebilecek kutu var mı?
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                // Sağındaki hücreyle aynı değere mi sahip?
+                if (j < 3 && tahta[i][j].deger == tahta[i][j + 1].deger) return false;
+                // Altındaki hücreyle aynı değere mi sahip?
+                if (i < 3 && tahta[i][j].deger == tahta[i + 1][j].deger) return false;
+            }
+        }
+        return true; 
     }

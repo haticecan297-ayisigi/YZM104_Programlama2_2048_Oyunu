@@ -123,6 +123,44 @@ int main() {
                 sf::FloatRect bdBounds = bestDeger.getLocalBounds();
                 bestDeger.setPosition({380.f - bdBounds.size.x / 2.f, 48.f});
                 pencere.draw(bestDeger);
+
+                //Oyun sonu ekranı çizimi
+                if (oyun.kazandiMi() || oyun.bittiMi()) {
+                    // Arka planı yarı saydam karartmak için dikdörtgen
+                    sf::RectangleShape ekranKarartma(sf::Vector2f({450.f, 560.f}));
+                    // Alpha değerini (180) ayarlayarak arkadaki sayıların görünmesini sağlıyoruz
+                    ekranKarartma.setFillColor(sf::Color(237, 224, 200, 180)); 
+                    pencere.draw(ekranKarartma);
+
+                    // Sonuç Metni
+                    sf::Text sonucMetni(font);
+                    if (oyun.kazandiMi()) {
+                        sonucMetni.setString("YOU WON!");
+                    } else {
+                        sonucMetni.setString("GAME OVER!");
+                    }
+                    
+                    sonucMetni.setCharacterSize(45);
+                    sonucMetni.setFillColor(sf::Color(119, 110, 101));
+                    sonucMetni.setStyle(sf::Text::Bold);
+                    
+                    // Metni tam merkeze hizalama
+                    const sf::FloatRect metinBoyut = sonucMetni.getLocalBounds();
+                    sonucMetni.setOrigin({metinBoyut.size.x / 2.0f, metinBoyut.size.y / 2.0f});
+                    sonucMetni.setPosition({225.f, 260.f}); // X'in ortası 225, Y'nin ortasına yakın
+                    pencere.draw(sonucMetni);
+
+                    // Bilgilendirme Metni
+                    sf::Text bilgiMetni(font);
+                    bilgiMetni.setString("press R to replay");
+                    bilgiMetni.setCharacterSize(20);
+                    bilgiMetni.setFillColor(sf::Color(119, 110, 101));
+                    
+                    const sf::FloatRect bilgiBoyut = bilgiMetni.getLocalBounds();
+                    bilgiMetni.setOrigin({bilgiBoyut.size.x / 2.0f, bilgiBoyut.size.y / 2.0f});
+                    bilgiMetni.setPosition({225.f, 320.f});
+                    pencere.draw(bilgiMetni);
+                }
             }
         }
 

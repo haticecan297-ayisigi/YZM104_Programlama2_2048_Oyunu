@@ -44,5 +44,10 @@ class OyunMantigi{
 
      // Oyun sırasında anlık güncelleme kontrolü ile rekoru döndür
     int enYuksekSkorAl() const;
+
+    //Oyun durum kontrolleri
+    bool kazandiMi() const;
+    bool bittiMi() const;
+
 };
 #endif 
