@@ -11,17 +11,18 @@ using namespace std;
 class OyunMantigi{
     private:
     Kutu tahta[4][4];   //4*4 oyun alanı
-    void rastgeleKutuEkle();   //Başlangıçta ve sonrasında rastgele sayı eklemek için
     bool hareketEttiMi; // Hamle sonucunda bir değişiklik oldu mu kontrolü
     void birlestirmeIsaretleriniTemizle(); // Her hamle başında birleşme durumunu sıfırlar
     int skor; //Güncel skor değişkeni
     int enYuksekSkor;
+     sf::Vector2f koordinatHesapla(int satir, int sutun) const;
 
     public:
 
     OyunMantigi();
 
     void tahtayiSifirla();   //Oyunu başlangıç haline getirmek için
+    void rastgeleKutuEkle();   //Başlangıçta ve sonrasında rastgele sayı eklemek için
     void solaKaydir(); // Sola kaydırma ana fonksiyonu
     void sagaKaydir();
     void yukariKaydir();
@@ -49,5 +50,11 @@ class OyunMantigi{
     bool kazandiMi() const;
     bool bittiMi() const;
 
+    //Animasyon ve çizim için eklenenler
+    void guncelle();
+    bool hareketDevamEdiyorMu() const;
+    sf::Vector2f anlikPosAl(int satir, int sutun) const;
+    bool yeniSayiEklenecekMi;
+    const Kutu& kutuAl(int i, int j) const;
 };
 #endif 

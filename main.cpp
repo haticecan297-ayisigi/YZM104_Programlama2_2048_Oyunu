@@ -21,6 +21,9 @@ int main() {
 
     //Oyun penceresi kapatılana kadar açık kalması için
     while(pencere.isOpen()){
+
+        oyun.guncelle();   //her karede animasyonları 1 adım ilerlet
+
         while(const optional olay = pencere.pollEvent()){
             if(olay->is<sf::Event::Closed>()){     //X basınca kapanması için
                 oyun.yuksekSkoruKaydet();   //Pencere kapanınca skoru kaydedecek
@@ -37,38 +40,42 @@ int main() {
             }
         }
 
-         pencere.clear(sf::Color(187, 173, 160)); // Arka plan rengi
+        oyun.guncelle();  //Animasyonları ilerletir
 
-        // 4x4 Izgarayı ve Sayıları Çizme (Matriks Mantığı)
+        //Animasyon bitince sayi ekle
+        if(oyun.yeniSayiEklenecekMi && !oyun.hareketDevamEdiyorMu()){
+            oyun.rastgeleKutuEkle();
+            oyun.yeniSayiEklenecekMi = false;  //Gorev tamamlandi
+        }
+
+        pencere.clear(sf::Color(187, 173, 160)); // Arka plan rengi
+        
+        //4*4 grid çizimi
+        for(int i=0; i<4;i++){
+            for(int j=0; j<4; j++){
+                sf::RectangleShape bosKutu(sf::Vector2f(100.f,100.f));
+                //Koordinat mantigi ile ayni hizada olmali
+                bosKutu.setPosition({j * 110.f + 10.f,i * 110.f + 110.f});
+                bosKutu.setFillColor(sf::Color(205,193,180));  //Bos hucre rengi
+                pencere.draw(bosKutu);
+            }
+        }
+
+        //
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                // Tahta private olduğu için getter fonksiyonunu kullanıyoruz
-                int deger = oyun.degerAl(i, j); 
+                Kutu k = oyun.kutuAl(i,j);
+                if (k.deger != 0) {
+                    // Artık pozisyonu i ve j'den değil, animasyondan alıyoruz!
+                   sf::RectangleShape kutuSekil(sf::Vector2f({100.f, 100.f}));
+                    kutuSekil.setPosition(k.anlikPos); // OyunMantigi'ndan gelen konum
+                    kutuSekil.setFillColor(oyun.renkAl(k.deger));
+                    pencere.draw(kutuSekil);
 
-                //Kareyi (Kutuyu) çizmek için
-                sf::RectangleShape kare(sf::Vector2f({100.f, 100.f}));
-                kare.setPosition({j * 110.f + 10.f, i * 110.f + 110.f});
-                
-                // Sayı değerine göre rengi sınıftaki fonksiyonu slmsk için
-                kare.setFillColor(oyun.renkAl(deger)); 
-                pencere.draw(kare);
+                    sf::Text metin(font, std::to_string(k.deger), 32);
+                    metin.setFillColor(sf::Color::Black);
 
-                //Sayıyı Çiz
-                if (deger != 0) {
-                    sf::Text metin(font);
-                    metin.setString(to_string(deger));
-                    metin.setCharacterSize(35);
-                    
-                    // Sayı rengi: 4 ve altı için koyu, üstü için beyaz
-                    metin.setFillColor(deger <= 4 ? sf::Color(119, 110, 101) : sf::Color::White);
-
-                    // sf::FloatRect artık 'size' üyesine sahiptir (size.x = width).
-                    const sf::FloatRect metinBoyut = metin.getLocalBounds();
-                    metin.setOrigin({metinBoyut.size.x / 2.0f, metinBoyut.size.y / 2.0f});
-                    
-                    // Merkeze yerleştirme(Ortalama): Kutunun başlangıcı + Kutunun yarısı (50.f)
-                    metin.setPosition({j * 110.f + 10.f + 50.f, i * 110.f + 110.f + 50.f});
-
+                     metin.setPosition({k.anlikPos.x + 25.f, k.anlikPos.y + 20.f});
                     pencere.draw(metin);
                 }
 

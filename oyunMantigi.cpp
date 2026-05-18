@@ -39,6 +39,11 @@ void OyunMantigi::rastgeleKutuEkle(){
          
         //%90 ihtimalle 2, %10 ile 4
         tahta[satir][sutun].deger = (rand() % 10 == 0) ? 4 : 2;
+
+        //Başlangıç yerini sabitlemek için
+        tahta[satir][sutun].anlikPos = koordinatHesapla(satir, sutun);
+        tahta[satir][sutun].hedefPos = tahta[satir][sutun].anlikPos;
+        tahta[satir][sutun].hareketliMi = false;
     }
 }
 
@@ -56,6 +61,8 @@ void OyunMantigi::solaKaydir() {
         for (int j = 1; j < 4; j++) { // İlk sütun zaten solda, 1. indisten başlıyoruz
             if (tahta[i][j].deger != 0) {
                 int hedefSutun = j;
+                
+                sf::Vector2f baslangicGorselPos = koordinatHesapla(i,j);
 
                 // 1. Aşama: Boşlukları doldurarak sola kaydır
                 while (hedefSutun > 0 && tahta[i][hedefSutun - 1].deger == 0) {
@@ -66,24 +73,27 @@ void OyunMantigi::solaKaydir() {
                 }
 
                 // 2. Aşama: Birleştirme kontrolü
-                if (hedefSutun > 0 && 
-                    tahta[i][hedefSutun - 1].deger == tahta[i][hedefSutun].deger && 
-                    !tahta[i][hedefSutun - 1].birlestiMi) {
-                    
-                    tahta[i][hedefSutun - 1].deger *= 2; // Değeri iki katına çıkar
-                    skor += tahta[i][hedefSutun - 1].deger; //Birleşen değeri skora ekle
-                    tahta[i][hedefSutun - 1].birlestiMi = true; // Aynı hamlede tekrar birleşmesin
-                    tahta[i][hedefSutun].deger = 0;
-                    hareketEttiMi = true; //
-                }
+               if (hedefSutun > 0 &&
+                        tahta[i][hedefSutun - 1].deger == tahta[i][hedefSutun].deger &&   // Bir kerede birden fazla birlesmemesi icin false olmali.
+                        !tahta[i][hedefSutun - 1].birlestiMi) {
+
+                        tahta[i][hedefSutun - 1].deger *= 2;
+                        skor += tahta[i][hedefSutun - 1].deger;
+                        tahta[i][hedefSutun - 1].birlestiMi = true;
+                        tahta[i][hedefSutun].deger = 0;
+                        hareketEttiMi = true;
+                    }
+                    if(hareketEttiMi){
+                        tahta[i][hedefSutun].anlikPos = baslangicGorselPos;
+                        tahta[i][hedefSutun].hedefPos = koordinatHesapla(i,hedefSutun);
+                        tahta[i][hedefSutun].hareketliMi = true;
+                    }
             }
         }
     }
     
     // Eğer bir hareket olduysa yeni bir sayı ekle
-    if (hareketEttiMi) {
-        rastgeleKutuEkle(); //
-    }
+    if(hareketEttiMi) yeniSayiEklenecekMi = true;
 }
 
    // Sağa Kaydırma
@@ -94,6 +104,9 @@ void OyunMantigi::solaKaydir() {
             for (int j = 2; j >= 0; j--) { // 3. sütun sabit, 2'den 0'a
                 if (tahta[i][j].deger != 0) {
                     int hedefSutun = j;
+
+                    sf::Vector2f baslangicGorselPos = koordinatHesapla(i,j);
+
                     while (hedefSutun < 3 && tahta[i][hedefSutun + 1].deger == 0) {
                         tahta[i][hedefSutun + 1].deger = tahta[i][hedefSutun].deger;
                         tahta[i][hedefSutun].deger = 0;
@@ -107,12 +120,15 @@ void OyunMantigi::solaKaydir() {
                         tahta[i][hedefSutun].deger = 0;
                         hareketEttiMi = true;
                     }
+                    if(hareketEttiMi){
+                        tahta[i][hedefSutun].anlikPos = baslangicGorselPos;
+                        tahta[i][hedefSutun].hedefPos = koordinatHesapla(i,hedefSutun);
+                        tahta[i][hedefSutun].hareketliMi = true;
+                    }
                 }
             }
         }
-        if (hareketEttiMi) {
-        rastgeleKutuEkle(); //
-    }
+        if(hareketEttiMi) yeniSayiEklenecekMi = true;
     }
 
     // YUKARI KAYDIRMA: yukarıdan aşağı doğru kontrol eder
@@ -123,6 +139,9 @@ void OyunMantigi::solaKaydir() {
             for (int i = 1; i < 4; i++) { // 0. satir sabit, 1'den 3'e
                 if (tahta[i][j].deger != 0) {
                     int hedefSatir = i;
+
+                    sf::Vector2f baslangicGorselPos = koordinatHesapla(i,j);
+
                     while (hedefSatir > 0 && tahta[hedefSatir - 1][j].deger == 0) {
                         tahta[hedefSatir - 1][j].deger = tahta[hedefSatir][j].deger;
                         tahta[hedefSatir][j].deger = 0;
@@ -136,12 +155,15 @@ void OyunMantigi::solaKaydir() {
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
                     }
+                    if(hareketEttiMi){
+                        tahta[hedefSatir][j].anlikPos = baslangicGorselPos;
+                        tahta[hedefSatir][j].hedefPos = koordinatHesapla(hedefSatir,j);
+                        tahta[hedefSatir][j].hareketliMi = true;
+                    }
                 }
             }
         }
-        if (hareketEttiMi) {
-        rastgeleKutuEkle(); //
-    }
+        if(hareketEttiMi) yeniSayiEklenecekMi = true;
     }
 
     // ASAGI KAYDIRMA: Alttan yukari dogru kontrol et
@@ -154,6 +176,9 @@ void OyunMantigi::solaKaydir() {
             for (int i = 2; i >= 0; i--) { // 3. satir sabit, 2'den 0'a
                 if (tahta[i][j].deger != 0) {
                     int hedefSatir = i;
+
+                    sf::Vector2f baslangicGorselPos = koordinatHesapla(i,j);
+
                     while (hedefSatir < 3 && tahta[hedefSatir + 1][j].deger == 0) {
                         tahta[hedefSatir + 1][j].deger = tahta[hedefSatir][j].deger;
                         tahta[hedefSatir][j].deger = 0;
@@ -167,12 +192,15 @@ void OyunMantigi::solaKaydir() {
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
                     }
+                    if(hareketEttiMi){
+                        tahta[hedefSatir][j].anlikPos = baslangicGorselPos;
+                        tahta[hedefSatir][j].hedefPos = koordinatHesapla(hedefSatir,j);
+                        tahta[hedefSatir][j].hareketliMi = true;
+                    }
                 }
             }
         }
-        if (hareketEttiMi) {
-          rastgeleKutuEkle(); //
-        }
+        if(hareketEttiMi) yeniSayiEklenecekMi = true;
     }
 
     int OyunMantigi::degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
@@ -262,3 +290,27 @@ void OyunMantigi::solaKaydir() {
         }
         return true; 
     }
+
+sf::Vector2f OyunMantigi::koordinatHesapla(int satir, int sutun) const {
+    return {sutun * 110.f + 10.f, satir * 110.f + 110.f};
+}
+
+void OyunMantigi::guncelle() {
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            tahta[i][j].guncelle(); // Kutu içindeki animasyonu tetikler
+}
+
+bool OyunMantigi::hareketDevamEdiyorMu() const {
+    for(int i = 0; i < 4; i++)
+        for(int j = 0; j < 4; j++)
+            if(tahta[i][j].hareketliMi) return true;
+    return false;
+}
+
+/*sf::Vector2f OyunMantigi::anlikPosAl(int satir, int sutun) const {
+    if(tahta[satir][sutun].deger == 0) return koordinatHesapla(satir, sutun);
+    return tahta[satir][sutun].anlikPos;
+}*/
+
+const Kutu& OyunMantigi::kutuAl(int i, int j) const { return tahta[i][j]; }
