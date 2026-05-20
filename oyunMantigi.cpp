@@ -3,6 +3,7 @@
 OyunMantigi::OyunMantigi(){
     skor = 0;   //constructor içinde sıfırlıyoruz
     enYuksekSkor = yuksekSkoruYukle();
+    yeniSayiEklenecekMi = false;  //Eklemezsem true dönüyor ve başlangıçta 3 sayı oluyor
     srand(static_cast<unsigned>(time(0)));  //Rastgelelik için zamanı başlat
     tahtayiSifirla();
 }
