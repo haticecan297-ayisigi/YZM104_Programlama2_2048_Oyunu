@@ -66,5 +66,7 @@ class OyunMantigi{
 
     void kazanmaSesiCal();
     void kaybetmeSesiCal();
+
+    bool sesAcikMi = true;  //Oyun açıkken ses açık
 };
 #endif 

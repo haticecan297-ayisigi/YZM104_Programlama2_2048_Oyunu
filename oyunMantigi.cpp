@@ -101,10 +101,12 @@ void OyunMantigi::solaKaydir() {
     if(hareketEttiMi) {
         yeniSayiEklenecekMi = true;
         // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
-        if (birlesmeOlduMu && birlesmeSesi) {
-            birlesmeSesi->play();
-        } else if (kaymaSesi) {
-            kaymaSesi->play();
+        if (sesAcikMi) {
+            if (birlesmeOlduMu && birlesmeSesi) {
+                birlesmeSesi->play();
+            } else if (kaymaSesi) {
+                kaymaSesi->play();
+            }
         }
     }
 }
@@ -146,10 +148,12 @@ void OyunMantigi::solaKaydir() {
         if(hareketEttiMi) {
             yeniSayiEklenecekMi = true;
             // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
-            if (birlesmeOlduMu && birlesmeSesi) {
-                birlesmeSesi->play();
-            } else if (kaymaSesi) {
-                kaymaSesi->play();
+            if (sesAcikMi) {
+                if (birlesmeOlduMu && birlesmeSesi) {
+                    birlesmeSesi->play();
+                } else if (kaymaSesi) {
+                    kaymaSesi->play();
+                }
             }
         }
     }
@@ -192,10 +196,12 @@ void OyunMantigi::solaKaydir() {
         if(hareketEttiMi) {
             yeniSayiEklenecekMi = true;
             // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
-            if (birlesmeOlduMu && birlesmeSesi) {
-                birlesmeSesi->play();
-            } else if (kaymaSesi) {
-                kaymaSesi->play();
+            if (sesAcikMi) {
+                if (birlesmeOlduMu && birlesmeSesi) {
+                    birlesmeSesi->play();
+                } else if (kaymaSesi) {
+                    kaymaSesi->play();
+                }
             }
         }
     }
@@ -241,10 +247,12 @@ void OyunMantigi::solaKaydir() {
         if(hareketEttiMi) {
             yeniSayiEklenecekMi = true;
             // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
-            if (birlesmeOlduMu && birlesmeSesi) {
-                birlesmeSesi->play();
-            } else if (kaymaSesi) {
-                kaymaSesi->play();
+            if (sesAcikMi) {
+                if (birlesmeOlduMu && birlesmeSesi) {
+                    birlesmeSesi->play();
+                } else if (kaymaSesi) {
+                    kaymaSesi->play();
+                }
             }
         }
     }

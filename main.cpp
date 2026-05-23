@@ -19,6 +19,36 @@ int main() {
         cout<< "HATA: arial.ttf dosyasi bulunamadi!"<<endl;
     }
 
+    //Ses ikonu yükleme
+    sf::Texture sesAcikTex, sesKapaliTex;
+    bool ikonlarYuklendi = true;
+    
+    if (!sesAcikTex.loadFromFile("sound_on.png") || !sesKapaliTex.loadFromFile("sound_off.png")) {
+        cout << "HATA: Ses ikonlari bulunamadi!" << endl;
+        ikonlarYuklendi = false;
+    }
+    
+   std::optional<sf::Sprite> sesIkonu; 
+    
+    if (ikonlarYuklendi) {
+        sesIkonu.emplace(sesAcikTex); 
+        
+        //orijinal resmin piksel boyutlarını alıyoruz
+        sf::Vector2u resimBoyutu = sesAcikTex.getSize();
+        
+        //İkonun ekranda ne kadar yer kaplayacağını seçiyoruz
+        float hedefGenişlik = 30.f; 
+        
+        //Ölçekleme oranını hesaplıyoruz (Hedef Boyut / Orijinal Boyut)
+        float olcek = hedefGenişlik / resimBoyutu.x; 
+        
+        //Resmi hesaplanan oranda küçültüyoruz
+        sesIkonu->setScale({olcek, olcek});
+        
+        // İkonu best kutusunun tam altına (Y: 85) ortalayarak (X: 365) yerleştiriyoruz
+        sesIkonu->setPosition({365.f, 77.f}); 
+    }
+
     // --- Yeniden Başlat Butonu ---
     sf::RectangleShape resetButonu(sf::Vector2f(80.f, 30.f));
     resetButonu.setFillColor(sf::Color(143, 122, 102)); // Biraz daha koyu bir kahve
@@ -58,6 +88,11 @@ int main() {
                         if (butonAlani.contains(sf::Vector2f(farePos))) {
                             oyun.yenidenBaslat();
                             oyunBittiSesiCaldiMi = false;
+                        }
+
+                        //Ses İkonu Kontrolü
+                        if (ikonlarYuklendi && sesIkonu && sesIkonu->getGlobalBounds().contains(sf::Vector2f(farePos))) {
+                            oyun.sesAcikMi = !oyun.sesAcikMi; // Açıksa kapat, kapalıysa aç
                         }
                     }
                 }
@@ -138,6 +173,16 @@ int main() {
         // Pozisyonu resetButonu değişkeninle aynı hizada ayarlıyoruz
         resetYazisi.setPosition({20.f + 40.f, 75.f + 15.f}); 
         pencere.draw(resetYazisi); // Sonra üstüne beyaz yazıyı çiziyoruz
+
+        //Ses İkonu Çizimi
+        if (ikonlarYuklendi) {
+            if (oyun.sesAcikMi) {
+                sesIkonu->setTexture(sesAcikTex);
+            } else {
+                sesIkonu->setTexture(sesKapaliTex);
+            }
+            pencere.draw(*sesIkonu);
+        }
 
 
         // --- 2. OYUN TAHTASI ÇİZİMLERİ ---
