@@ -6,6 +6,8 @@ OyunMantigi::OyunMantigi(){
     yeniSayiEklenecekMi = false;  //Eklemezsem true dönüyor ve başlangıçta 3 sayı oluyor
     srand(static_cast<unsigned>(time(0)));  //Rastgelelik için zamanı başlat
     tahtayiSifirla();
+
+    sesleriYukle();   //Nesne oluştuğunda sesleri yükle
 }
 
 void OyunMantigi::tahtayiSifirla(){
@@ -57,6 +59,7 @@ void OyunMantigi::birlestirmeIsaretleriniTemizle() {
 void OyunMantigi::solaKaydir() {
     hareketEttiMi = false; 
     birlestirmeIsaretleriniTemizle(); 
+    bool birlesmeOlduMu = false;
 
     for (int i = 0; i < 4; i++) {
         for (int j = 1; j < 4; j++) { // İlk sütun zaten solda, 1. indisten başlıyoruz
@@ -83,6 +86,7 @@ void OyunMantigi::solaKaydir() {
                         tahta[i][hedefSutun - 1].birlestiMi = true;
                         tahta[i][hedefSutun].deger = 0;
                         hareketEttiMi = true;
+                        birlesmeOlduMu = true;
                     }
                     if(hareketEttiMi){
                         tahta[i][hedefSutun].anlikPos = baslangicGorselPos;
@@ -94,13 +98,22 @@ void OyunMantigi::solaKaydir() {
     }
     
     // Eğer bir hareket olduysa yeni bir sayı ekle
-    if(hareketEttiMi) yeniSayiEklenecekMi = true;
+    if(hareketEttiMi) {
+        yeniSayiEklenecekMi = true;
+        // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
+        if (birlesmeOlduMu && birlesmeSesi) {
+            birlesmeSesi->play();
+        } else if (kaymaSesi) {
+            kaymaSesi->play();
+        }
+    }
 }
 
    // Sağa Kaydırma
     void OyunMantigi::sagaKaydir() {
         hareketEttiMi = false;
         birlestirmeIsaretleriniTemizle();
+        bool birlesmeOlduMu = false;
         for (int i = 0; i < 4; i++) {
             for (int j = 2; j >= 0; j--) { // 3. sütun sabit, 2'den 0'a
                 if (tahta[i][j].deger != 0) {
@@ -120,6 +133,7 @@ void OyunMantigi::solaKaydir() {
                         tahta[i][hedefSutun + 1].birlestiMi = true;
                         tahta[i][hedefSutun].deger = 0;
                         hareketEttiMi = true;
+                        birlesmeOlduMu = true;
                     }
                     if(hareketEttiMi){
                         tahta[i][hedefSutun].anlikPos = baslangicGorselPos;
@@ -129,13 +143,22 @@ void OyunMantigi::solaKaydir() {
                 }
             }
         }
-        if(hareketEttiMi) yeniSayiEklenecekMi = true;
+        if(hareketEttiMi) {
+            yeniSayiEklenecekMi = true;
+            // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
+            if (birlesmeOlduMu && birlesmeSesi) {
+                birlesmeSesi->play();
+            } else if (kaymaSesi) {
+                kaymaSesi->play();
+            }
+        }
     }
 
     // YUKARI KAYDIRMA: yukarıdan aşağı doğru kontrol eder
     void OyunMantigi::yukariKaydir() {
         hareketEttiMi = false;
         birlestirmeIsaretleriniTemizle();
+        bool birlesmeOlduMu = false;
         for (int j = 0; j < 4; j++) {
             for (int i = 1; i < 4; i++) { // 0. satir sabit, 1'den 3'e
                 if (tahta[i][j].deger != 0) {
@@ -155,6 +178,7 @@ void OyunMantigi::solaKaydir() {
                         tahta[hedefSatir - 1][j].birlestiMi = true;
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
+                        birlesmeOlduMu = true;
                     }
                     if(hareketEttiMi){
                         tahta[hedefSatir][j].anlikPos = baslangicGorselPos;
@@ -164,7 +188,16 @@ void OyunMantigi::solaKaydir() {
                 }
             }
         }
-        if(hareketEttiMi) yeniSayiEklenecekMi = true;
+        // Eğer bir hareket olduysa yeni bir sayı ekle
+        if(hareketEttiMi) {
+            yeniSayiEklenecekMi = true;
+            // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
+            if (birlesmeOlduMu && birlesmeSesi) {
+                birlesmeSesi->play();
+            } else if (kaymaSesi) {
+                kaymaSesi->play();
+            }
+        }
     }
 
     // ASAGI KAYDIRMA: Alttan yukari dogru kontrol et
@@ -172,6 +205,8 @@ void OyunMantigi::solaKaydir() {
         hareketEttiMi = false;
 
         birlestirmeIsaretleriniTemizle();
+
+        bool birlesmeOlduMu = false;
 
         for (int j = 0; j < 4; j++) {
             for (int i = 2; i >= 0; i--) { // 3. satir sabit, 2'den 0'a
@@ -192,6 +227,7 @@ void OyunMantigi::solaKaydir() {
                         tahta[hedefSatir + 1][j].birlestiMi = true;
                         tahta[hedefSatir][j].deger = 0;
                         hareketEttiMi = true;
+                        birlesmeOlduMu = true;
                     }
                     if(hareketEttiMi){
                         tahta[hedefSatir][j].anlikPos = baslangicGorselPos;
@@ -201,7 +237,16 @@ void OyunMantigi::solaKaydir() {
                 }
             }
         }
-        if(hareketEttiMi) yeniSayiEklenecekMi = true;
+        // Eğer bir hareket olduysa yeni bir sayı ekle
+        if(hareketEttiMi) {
+            yeniSayiEklenecekMi = true;
+            // Eğer birleşme olduysa birleşme sesini, sadece kayma olduysa kayma sesini çal
+            if (birlesmeOlduMu && birlesmeSesi) {
+                birlesmeSesi->play();
+            } else if (kaymaSesi) {
+                kaymaSesi->play();
+            }
+        }
     }
 
     int OyunMantigi::degerAl(int satir,int sutun) const {return tahta[satir][sutun].deger;}
@@ -315,3 +360,34 @@ bool OyunMantigi::hareketDevamEdiyorMu() const {
 }*/
 
 const Kutu& OyunMantigi::kutuAl(int i, int j) const { return tahta[i][j]; }
+
+void OyunMantigi::sesleriYukle() {
+    // Sol paneldeki dosya uzantılarına tam uygun şekilde yüklüyoruz
+    if (!kaymaBuffer.loadFromFile("kayma.ogg")) { /* Hata yönetimi */ }
+    if (!birlesmeBuffer.loadFromFile("birlesme.ogg")) { }
+    if (!kazanmaBuffer.loadFromFile("kazanma.wav")) { }
+    if (!kaybetmeBuffer.loadFromFile("kaybetme.wav")) { }
+
+    // setBuffer yerine emplace kullanıyoruz: Buffer'ı vererek anında sf::Sound yaratır
+    kaymaSesi.emplace(kaymaBuffer);
+    birlesmeSesi.emplace(birlesmeBuffer);
+    kazanmaSesi.emplace(kazanmaBuffer);
+    kaybetmeSesi.emplace(kaybetmeBuffer);
+    
+    // -> operatörü ile ayarlara erişiyoruz
+    kaymaSesi->setVolume(50.f); 
+    birlesmeSesi->setVolume(70.f);
+}
+
+void OyunMantigi::kazanmaSesiCal() {
+    // Önce ses yüklendi mi diye kontrol ediyoruz (kazanmaSesi doluysa çalışır)
+    if (kazanmaSesi && kazanmaSesi->getStatus() != sf::Sound::Status::Playing) {
+        kazanmaSesi->play();
+    }
+}
+
+void OyunMantigi::kaybetmeSesiCal() {
+    if (kaybetmeSesi && kaybetmeSesi->getStatus() != sf::Sound::Status::Playing) {
+        kaybetmeSesi->play();
+    }
+}

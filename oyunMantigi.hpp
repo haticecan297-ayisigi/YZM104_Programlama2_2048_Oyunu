@@ -5,6 +5,8 @@
 #include <ctime>
 #include <cstdlib>
 #include <fstream>   //Dosyalama için
+#include <optional>
+#include <SFML/Audio.hpp>  //Ses kütüphanesi
 
 using namespace std;
 
@@ -15,7 +17,12 @@ class OyunMantigi{
     void birlestirmeIsaretleriniTemizle(); // Her hamle başında birleşme durumunu sıfırlar
     int skor; //Güncel skor değişkeni
     int enYuksekSkor;
-     sf::Vector2f koordinatHesapla(int satir, int sutun) const;
+    sf::Vector2f koordinatHesapla(int satir, int sutun) const;
+
+    sf::SoundBuffer kaymaBuffer, birlesmeBuffer, kazanmaBuffer, kaybetmeBuffer;
+    optional<sf::Sound> kaymaSesi, birlesmeSesi, kazanmaSesi, kaybetmeSesi;
+    
+    void sesleriYukle();   //Sesleri RAM'e atacak
 
     public:
 
@@ -56,5 +63,8 @@ class OyunMantigi{
     sf::Vector2f anlikPosAl(int satir, int sutun) const;
     bool yeniSayiEklenecekMi;
     const Kutu& kutuAl(int i, int j) const;
+
+    void kazanmaSesiCal();
+    void kaybetmeSesiCal();
 };
 #endif 

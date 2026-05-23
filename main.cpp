@@ -24,6 +24,8 @@ int main() {
     resetButonu.setFillColor(sf::Color(143, 122, 102)); // Biraz daha koyu bir kahve
     resetButonu.setPosition({20.f, 75.f}); // Logonun hemen
 
+    bool oyunBittiSesiCaldiMi = false;   //Sesi bir kere çalmak için
+
     //Oyun penceresi kapatılana kadar açık kalması için
     while(pencere.isOpen()){
 
@@ -55,6 +57,7 @@ int main() {
                         // Fare koordinatı butonun içinde mi? (AABB Collision)
                         if (butonAlani.contains(sf::Vector2f(farePos))) {
                             oyun.yenidenBaslat();
+                            oyunBittiSesiCaldiMi = false;
                         }
                     }
                 }
@@ -173,6 +176,18 @@ int main() {
 
         // --- 3. OYUN SONU EKRANI ---
         if (oyun.kazandiMi() || oyun.bittiMi()) {
+
+            // YENİ: Ses çalma mantığı
+            if (!oyunBittiSesiCaldiMi) {
+                if (oyun.kazandiMi()) {
+                    oyun.kazanmaSesiCal();
+                } else {
+                    oyun.kaybetmeSesiCal();
+                }
+                oyunBittiSesiCaldiMi = true; // Sadece ilk seferde çalışacak
+            }
+
+
             sf::RectangleShape ekranKarartma(sf::Vector2f({450.f, 560.f}));
             ekranKarartma.setFillColor(sf::Color(237, 224, 200, 180)); 
             pencere.draw(ekranKarartma);
@@ -189,7 +204,7 @@ int main() {
             pencere.draw(sonucMetni);
 
             sf::Text bilgiMetni(font);
-            bilgiMetni.setString("press R or click RESET to replay");
+            bilgiMetni.setString("Click RESET to replay");
             bilgiMetni.setCharacterSize(20);
             bilgiMetni.setFillColor(sf::Color(119, 110, 101));
             
