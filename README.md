@@ -10,6 +10,13 @@
 
 ---
 
+## 🎥 Proje Demo Videosu
+Oyunun oynanış mekaniklerini, arayüz özelliklerini ve ses efektlerini içeren demo videosunu izlemek için aşağıdaki bağlantıya tıklayabilirsiniz:
+
+👉 [2048 Oyun Projesi - Demo Videosunu İzle](https://drive.google.com/file/d/1l-cHvAzC_ulcjDLahF-X0nPo3plelxDy/view?usp=sharing)
+
+---
+
 ## 2. Özellikler
 
 **Dinamik Oyun Akışı**
